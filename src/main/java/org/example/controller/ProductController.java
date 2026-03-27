@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -64,6 +65,7 @@ public String showEditForm(@RequestParam("id") int id, Model model)
     @GetMapping("/Delete")
     public String deleteProduct(@RequestParam("id") int id)
     {
+
         productService.deleteProduct(id);
         return "redirect:/getAllProducts";
     }

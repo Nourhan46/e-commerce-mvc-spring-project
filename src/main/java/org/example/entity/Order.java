@@ -18,8 +18,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+@Column(name = "total_price")
     private Double totalPrice;
+    @Column(name = "order_date")
     private Date orderDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

@@ -57,7 +57,8 @@ public class ProductDAOImpl  implements ProductDAO{
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
         Product product = getProductById(id);
-        session.delete(product);
+        product.setIs_active(false);
+        session.update(product);
     }
 
 }

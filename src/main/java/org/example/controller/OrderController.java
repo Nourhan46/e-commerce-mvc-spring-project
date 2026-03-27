@@ -2,10 +2,7 @@ package org.example.controller;
 
 import org.example.dao.CartDAO;
 import org.example.dao.CartItemDAO;
-import org.example.entity.Cart;
-import org.example.entity.Payment;
-import org.example.entity.User;
-import org.example.entity.cartItem;
+import org.example.entity.*;
 import org.example.service.orderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,14 +42,14 @@ CartDAO cartDAO;
         return "checkout";
     }
     @PostMapping("/checkout")
-    public String checkout(HttpSession session , @ModelAttribute Payment payment) {
+    public String checkout(HttpSession session , @ModelAttribute Payment payment , Model model) {
 
 
         User user = (User) session.getAttribute("currentUser");
 
 
-        orderService.checkout(user ,payment);
-
-        return "redirect:/order/success";
+     Order order=   orderService.checkout(user.getId() ,payment);
+       model.addAttribute("order_id",order.getOrderId());
+        return "Sucess";
     }
 }

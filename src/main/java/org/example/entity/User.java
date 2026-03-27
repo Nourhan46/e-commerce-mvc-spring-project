@@ -24,8 +24,8 @@ public class User {
 
     private Cart cart;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
     public List<Product> getProducts() {
         return products;
@@ -43,12 +43,12 @@ public class User {
         this.cart = cart;
     }
 
-    public List<OrderItem> getOrderItems() {
-        return orderItems;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItems = orderItems;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public int getId() {

@@ -188,6 +188,9 @@
             </c:if>
 
             <c:forEach var="item" items="${cartItems}">
+
+
+
                 <div class="cart-item">
                     <div class="item-details">
                         <h3 class="item-title">${item.product.title}</h3>

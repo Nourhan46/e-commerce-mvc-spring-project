@@ -16,7 +16,9 @@ public class Product {
     private String title;
     private double price;
     private  int stock;
-
+    private boolean is_active = true;
+    @Column(name = "image_url")
+    private String imageUrl;
     public int getStock() {
         return stock;
     }
@@ -60,5 +62,13 @@ public class Product {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(boolean is_active) {
+        this.is_active = is_active;
     }
 }

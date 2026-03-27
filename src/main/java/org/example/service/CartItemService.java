@@ -8,4 +8,6 @@ public interface CartItemService {
     public void addItem(int id, int cart_id);
 
     List<cartItem> getItemsInCart(int cartId);
+
+    public void deleteItems(List<cartItem> items);
 }

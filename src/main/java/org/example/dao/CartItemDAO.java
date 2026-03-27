@@ -10,4 +10,6 @@ public interface CartItemDAO {
     cartItem findItemInCart(int id , int cart_id);
 
     List<cartItem> getItems(int cartId);
+
+    void delete(List<cartItem> items);
 }

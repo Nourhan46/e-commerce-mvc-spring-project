@@ -46,4 +46,13 @@ public class CartItemDAOImpl implements  CartItemDAO{
         List<cartItem> items = query.list();
         return  items;
     }
+
+    @Override
+    public void delete(List<cartItem> items) {
+        Session session = sessionFactory.getCurrentSession();
+        for(cartItem item: items)
+        {
+            session.delete(item);
+        }
+    }
 }

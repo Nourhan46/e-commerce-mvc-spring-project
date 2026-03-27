@@ -54,4 +54,9 @@ public class CartItemServiceImpl implements  CartItemService {
     public List<cartItem> getItemsInCart(int cartId) {
         return cartItemDAO.getItems(cartId);
     }
+
+    @Override
+    public void deleteItems(List<cartItem> items) {
+        cartItemDAO.delete(items);
+    }
 }

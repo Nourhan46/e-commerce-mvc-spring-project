@@ -32,7 +32,7 @@
     </table>
 
     <!-- Checkout Form -->
-    <form action="/checkout" method="post">
+    <form action="checkout" method="post">
 
 
         <!-- Payment Method -->

@@ -10,17 +10,19 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "payment_id")
     private int paymentId;
 
     private int amount;
-
+@Column(name = "payment_method")
     private String paymentMethod;
-
+@Column(name = "payment_status")
     private String paymentStatus;
 
     @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
+
 
     public int getPaymentId() {
         return paymentId;

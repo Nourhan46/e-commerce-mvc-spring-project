@@ -40,5 +40,16 @@ public class UserDAoImpl  implements UserDAO {
         return null;
     }
 
+    @Override
+    public User findById(int id) {
+        Session session= sessionFactory.getCurrentSession();
+        String st ="from User where id = :id";
+            Query query= session.createQuery(st);
+            query.setParameter("id",id);
+            return (User) query.uniqueResult();
+
+
+    }
+
 
 }
