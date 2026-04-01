@@ -19,7 +19,9 @@ public class cartItem {
     public Product getProduct() {
         return product;
     }
-
+    public double getSubtotal() {
+        return product.getPrice() * quantity;
+    }
     public void setProduct(Product product) {
         this.product = product;
     }

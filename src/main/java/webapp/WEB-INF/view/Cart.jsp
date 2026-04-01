@@ -7,224 +7,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart</title>
+    <title>Your Shopping Cart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
         :root {
-            --primary-color: #2563eb;
-            --bg-color: #f8fafc;
+            --primary: #2563eb;
+            --bg: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --danger-color: #ef4444;
+            --border: #e2e8f0;
+            --danger: #ef4444;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg);
             color: var(--text-main);
-            padding: 2rem 1rem;
+            padding: 40px 20px;
         }
 
-        .cart-container {
-            max-width: 800px;
+        .container {
+            max-width: 1100px;
             margin: 0 auto;
+        }
+
+        .cart-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Cart Items Section */
+        .cart-items-list {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-        }
-
-        .cart-header {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
+            gap: 15px;
         }
 
         .cart-item {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
+            gap: 20px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
         }
 
-        .item-details {
+        .cart-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        /* Image Styling */
+        .item-img-container {
+            width: 100px;
+            height: 100px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            padding: 10px;
+        }
+
+        .item-img-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .item-info {
             flex: 1;
         }
 
         .item-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
 
-        .item-price-unit {
-            color: var(--text-muted);
-            font-size: 0.95rem;
+        .item-price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
-        .item-controls {
+        /* Controls Area */
+        .item-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 15px;
+        }
+
+        .qty-form {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 5px 10px;
+            border-radius: 8px;
         }
 
-        /* Simplified Quantity Input */
         .qty-input {
-            width: 60px;
-            padding: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-main);
-            background-color: var(--bg-color);
-            transition: border-color 0.2s;
-        }
-
-        .qty-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .remove-btn {
-            background: none;
+            width: 45px;
             border: none;
-            color: var(--danger-color);
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-        }
-
-        .remove-btn:hover {
-            background-color: #fee2e2;
-        }
-
-        .empty-cart-msg {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
+            background: transparent;
             text-align: center;
-            color: var(--text-muted);
-            border: 1px dashed var(--border-color);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-main);
         }
 
-        .checkout-section {
+        /* Hide arrows on number input */
+        .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+        .remove-link {
+            color: var(--danger);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
             display: flex;
-            justify-content: flex-end;
-            padding-top: 1rem;
-            border-top: 2px solid var(--border-color);
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+
+        .remove-link:hover { opacity: 0.7; }
+
+        /* Summary Sidebar */
+        .cart-summary {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .summary-total {
+            border-top: 2px dashed var(--border);
+            margin-top: 15px;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
         }
 
         .checkout-btn {
-            background-color: var(--primary-color);
+            display: block;
+            width: 100%;
+            background: var(--primary);
             color: white;
+            text-align: center;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-top: 25px;
+            transition: 0.3s;
             border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
         }
 
-        .checkout-btn:hover {
-            background-color: #1d4ed8;
+        .checkout-btn:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .checkout-btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 20px;
+            border: 1px dashed var(--text-muted);
         }
 
-        .checkout-btn:disabled {
-            background-color: #94a3b8;
-            cursor: not-allowed;
-        }
-
-        @media (max-width: 768px) {
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            .item-controls {
-                width: 100%;
-                justify-content: space-between;
-                border-top: 1px solid var(--border-color);
-                padding-top: 1rem;
-            }
-            .checkout-section {
-                justify-content: center;
-            }
-            .checkout-btn {
-                width: 100%;
-            }
+        @media (max-width: 900px) {
+            .cart-wrapper { grid-template-columns: 1fr; }
+            .cart-summary { position: static; }
         }
     </style>
 </head>
 <body>
 
-    <div class="cart-container">
+    <div class="container">
+        <h1 class="cart-title">
+            <i data-lucide="shopping-cart"></i>
+            Shopping Cart <span style="color: var(--text-muted); font-size: 1.2rem;">(${cartItems.size()} items)</span>
+        </h1>
 
-        <div class="cart-items">
-            <h1 class="cart-header">Shopping Cart (${cartItems.size()})</h1>
-
-            <c:if test="${empty cartItems}">
-                <div class="empty-cart-msg">
-                    <h2>Your cart is currently empty.</h2>
+        <c:choose>
+            <c:when test="${empty cartItems}">
+                <div class="empty-state">
+                    <i data-lucide="shopping-bag" style="width: 60px; height: 60px; color: var(--text-muted); margin-bottom: 20px;"></i>
+                    <h2>Your cart is feeling lonely</h2>
+                    <p style="color: var(--text-muted); margin: 10px 0 25px;">Add some amazing products to your cart!</p>
+                    <a href="getAllProducts" class="checkout-btn" style="display: inline-block; width: auto; padding: 12px 30px;">Back to Shop</a>
                 </div>
-            </c:if>
+            </c:when>
+            <c:otherwise>
+                <div class="cart-wrapper">
+                    <div class="cart-items-list">
+                        <c:forEach var="item" items="${cartItems}">
+                            <div class="cart-item">
+                                <div class="item-img-container">
+                                    <c:choose>
+                                        <c:when test="${not empty item.product.imageUrl}">
+                                            <img src="${pageContext.request.contextPath}/images/${item.product.imageUrl}"
+                                                 alt="${item.product.title}"
+                                                 onerror="this.src='https://placehold.co/100x100?text=No+Image';">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i data-lucide="image" style="color: var(--text-muted);"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
 
-            <c:forEach var="item" items="${cartItems}">
+                                <div class="item-info">
+                                    <h3 class="item-title">${item.product.title}</h3>
+                                    <p class="item-price">$${item.product.price}</p>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">In Stock: ${item.product.stock}</p>
+                                </div>
 
+                                <div class="item-actions">
+                                    <form action="${pageContext.request.contextPath}/cart/update" method="POST" class="qty-form">
+                                        <input type="hidden" name="productId" value="${item.product.id}">
+                                        <label style="font-size: 0.8rem; font-weight: 600;">Qty:</label>
+                                        <input type="number" name="quantity" class="qty-input"
+                                               value="${item.quantity}" min="1" max="${item.product.stock}"
+                                               onchange="this.form.submit()">
+                                    </form>
 
+                                    <form action="${pageContext.request.contextPath}/cart/remove" method="POST">
+                                        <input type="hidden" name="productId" value="${item.product.id}">
+                                      <input type="hidden" name="cart_id" value="${param.cart_id}">
+                                        <button type="submit" class="remove-link" style="background:none; border:none; cursor:pointer;">
+                                            <i data-lucide="trash-2" style="width: 14px;"></i> Remove
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
 
-                <div class="cart-item">
-                    <div class="item-details">
-                        <h3 class="item-title">${item.product.title}</h3>
-                        <div class="item-price-unit">
-                            Unit Price: <fmt:formatNumber value="${item.product.price}" type="currency" currencySymbol="$"/>
+                    <div class="cart-summary">
+                        <h2 class="summary-title">Order Summary</h2>
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span>$${totalPrice}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span style="color: var(--success);">Free</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (Estimated)</span>
+                            <span>$0.00</span>
+                        </div>
+
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <span>$${totalPrice}</span>
+                        </div>
+
+                        <form action="${pageContext.request.contextPath}/checkout" method="GET">
+                            <button type="submit" class="checkout-btn">
+                                Proceed to Checkout
+                            </button>
+                        </form>
+
+                        <div style="margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--text-muted); font-size: 0.85rem;">
+                            <i data-lucide="shield-check" style="width: 16px;"></i> Secure Checkout
                         </div>
                     </div>
-
-                    <div class="item-controls">
-                        <form action="${pageContext.request.contextPath}/cart/update" method="POST">
-                            <input type="hidden" name="productId" value="${item.product.id}">
-                            <input type="number" name="quantity" class="qty-input"
-                                   value="${item.quantity}" min="1" max="${item.product.stock}"
-                                   title="Quantity" onchange="this.form.submit()">
-                        </form>
-
-                        <form action="${pageContext.request.contextPath}/cart/remove" method="POST">
-                            <input type="hidden" name="productId" value="${item.product.id}">
-                            <button type="submit" class="remove-btn">Remove</button>
-                        </form>
-                    </div>
                 </div>
-            </c:forEach>
-        </div>
-
-        <div class="checkout-section">
-            <form action="${pageContext.request.contextPath}/checkout" method="GET" style="width: 100%;">
-                <button type="submit" class="checkout-btn" <c:if test="${empty cartItems}">disabled</c:if>>
-                    Proceed to Checkout
-                </button>
-            </form>
-        </div>
-
+            </c:otherwise>
+        </c:choose>
     </div>
 
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>

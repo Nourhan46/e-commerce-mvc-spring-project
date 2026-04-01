@@ -12,4 +12,6 @@ public interface CartItemDAO {
     List<cartItem> getItems(int cartId);
 
     void delete(List<cartItem> items);
+
+    void deleteitem(int productId , int cartId);
 }

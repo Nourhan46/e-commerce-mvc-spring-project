@@ -11,8 +11,6 @@ public interface CartDAO {
     public  void  addCart(Cart cart);
     public Cart  findCartByUserId(int id);
 
-    void addItem(Product product);
-
     Cart getCartById(int id);
 
     void updateItem(cartItem cartItem);

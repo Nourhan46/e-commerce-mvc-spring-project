@@ -10,26 +10,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class CartServiceImpl  implements  CartService{
     @Autowired
     CartDAO cartDAO;
     @Autowired
     ProductDAO productDAO;
-    @Override
-    public void AddItem(int id) {
-        Product product = productDAO.getProductById(id);
-        int number_of_avaliable_items=  product.getStock();
-        if(number_of_avaliable_items>0) {
-            cartDAO.addItem(product);
 
-            number_of_avaliable_items--;
-            product.setStock(number_of_avaliable_items);
-
-
-        }
-        else
-            System.out.println("out of stock");
-    }
 
     @Override
     @Transactional
@@ -40,6 +27,11 @@ public class CartServiceImpl  implements  CartService{
     @Override
     public Cart findCartByUserId(int id) {
         return cartDAO.findCartByUserId(id);
+    }
+
+    @Override
+    public Cart findCartById(int id) {
+        return cartDAO.getCartById(id);
     }
 
 

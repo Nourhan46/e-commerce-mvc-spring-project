@@ -1,6 +1,7 @@
 package org.example.entity;
 
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,15 +15,34 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
+    @Transient
+    private MultipartFile productImage;
     private double price;
     private  int stock;
     private boolean is_active = true;
     @Column(name = "image_url")
     private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public int getStock() {
         return stock;
     }
 
+
+    public MultipartFile getProductImage() {
+        return productImage;
+    }
+
+    public void setProductImage(MultipartFile productImage) {
+        this.productImage = productImage;
+    }
     public void setStock(int stock) {
         this.stock = stock;
     }

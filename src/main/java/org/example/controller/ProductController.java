@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -39,15 +41,35 @@ public String showEditForm(@RequestParam("id") int id, Model model)
     model.addAttribute("product",product);
     return "Edit";
 }
-@PostMapping("/editProduct")
- public String editProduct(@ModelAttribute("product")Product product,HttpSession session)
-{
-    User currentUser=(User) session.getAttribute("currentUser");
-    product.setUser(currentUser);
-    productService.UpdateProduct(product);
+    @PostMapping("/editProduct")
+    public String editProduct(@ModelAttribute("product") Product product, HttpSession session) throws IOException {
 
-    return "redirect:/getAllProducts";
-}
+        Product existingProduct = productService.getProductById(product.getId());
+
+        MultipartFile image = product.getProductImage();
+
+        if (image != null && !image.isEmpty()) {
+            String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            String uploadDir = "C:/uploads/";
+            File dir = new File(uploadDir);
+            if (!dir.exists()) dir.mkdirs();
+
+            File saveFile = new File(uploadDir, fileName);
+            image.transferTo(saveFile);
+
+            product.setImageUrl(fileName);
+        } else {
+            product.setImageUrl(existingProduct.getImageUrl());
+        }
+
+        User currentUser = (User) session.getAttribute("currentUser");
+        product.setUser(currentUser);
+
+        productService.UpdateProduct(product);
+
+        return "redirect:/getAllProducts";
+    }
+
 @GetMapping("/Add")
     public String Add(Model model)
 {
@@ -55,8 +77,18 @@ public String showEditForm(@RequestParam("id") int id, Model model)
     return "Add";
 }
     @PostMapping("/Add")
-    public String AddProduct(@ModelAttribute("product")Product product , HttpSession session)
-    {
+    public String AddProduct(@ModelAttribute("product")Product product , HttpSession session) throws IOException {
+        MultipartFile image = product.getProductImage();
+        String fileName= System.currentTimeMillis() +'_' + image.getOriginalFilename();
+        String uploadDir = "C:/uploads/";
+        File dir = new File(uploadDir);
+
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File saveFile= new File(uploadDir,fileName);
+        image.transferTo(saveFile);
+        product.setImageUrl(fileName);
         product.setUser((User) session.getAttribute("currentUser"));
         productService.AddProduct(product);
 

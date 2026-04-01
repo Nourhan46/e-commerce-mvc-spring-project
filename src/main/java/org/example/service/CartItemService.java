@@ -10,4 +10,6 @@ public interface CartItemService {
     List<cartItem> getItemsInCart(int cartId);
 
     public void deleteItems(List<cartItem> items);
+
+   public void deleteItem(int productId , int cartId);
 }

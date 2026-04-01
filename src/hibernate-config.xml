@@ -11,7 +11,6 @@
         <property name="connection.url">jdbc:sqlserver://localhost:1433;databaseName=Products_DB;encrypt=true;trustServerCertificate=true</property>
         <property name="connection.username">nour</property>
         <property name="connection.password">123456</property>
-
         <!-- Echo the SQL to stdout -->
         <property name="show_sql">true</property>
 
@@ -23,7 +22,13 @@
 
         <!-- Set the current session context -->
         <property name="current_session_context_class">thread</property>
-
+        <mapping class="org.example.entity.Cart" />
+        <mapping class="org.example.entity.cartItem" />
+        <mapping class="org.example.entity.Order" />
+        <mapping class="org.example.entity.OrderItem" />
+        <mapping class="org.example.entity.Payment" />
+        <mapping class="org.example.entity.Product" />
+        <mapping class="org.example.entity.User" />
     </session-factory>
 
 </hibernate-configuration>

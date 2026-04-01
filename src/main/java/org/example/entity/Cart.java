@@ -40,4 +40,11 @@ public class Cart {
     public void setUser(User user) {
         this.user = user;
     }
+    public double getTotalPrice() {
+        double total = 0;
+        for (cartItem item : items) {
+            total += item.getSubtotal();
+        }
+        return total;
+    }
 }

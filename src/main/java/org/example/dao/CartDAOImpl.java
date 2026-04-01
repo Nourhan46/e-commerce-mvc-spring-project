@@ -35,15 +35,12 @@ public class CartDAOImpl  implements  CartDAO{
 
     }
 
-    @Override
-    public void addItem(Product product) {
 
-    }
 
     @Override
     public Cart getCartById(int id) {
         Session session= sessionFactory.getCurrentSession();
-        String st ="from Cart where id = :id";
+        String st ="from Cart c LEFT JOIN FETCH c.items where c.id = :id";
 
         Query query= session.createQuery(st);
         query.setParameter("id",id);
